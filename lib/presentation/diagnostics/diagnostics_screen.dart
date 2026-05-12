@@ -16,11 +16,7 @@ class DiagnosticsScreen extends ConsumerWidget {
         title: const Text('Diagnóstico OBD2'),
         actions: [
           TextButton.icon(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Comando enviado para limpar códigos.')),
-              );
-            },
+            onPressed: () => _clearCodes(context, ref),
             icon: const Icon(Icons.delete_outline, color: Colors.white),
             label: const Text('Limpar', style: TextStyle(color: Colors.white)),
           ),
@@ -43,6 +39,25 @@ class DiagnosticsScreen extends ConsumerWidget {
         error: (err, stack) => Center(child: Text('Erro ao ler códigos: $err')),
       ),
     );
+  }
+
+  Future<void> _clearCodes(BuildContext context, WidgetRef ref) async {
+    final repository = ref.read(obdRepositoryProvider);
+    try {
+      await repository.clearErrors();
+      ref.invalidate(diagnosticErrorsProvider);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Códigos de falha apagados da ECU.')),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao limpar códigos: $e')),
+        );
+      }
+    }
   }
 
   Widget _buildNoErrors() {

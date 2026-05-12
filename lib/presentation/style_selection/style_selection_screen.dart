@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/storage/storage_service.dart';
 import '../../core/theme/app_theme.dart';
 import '../../data/providers.dart';
 import '../../domain/models/app_state.dart';
@@ -59,7 +60,10 @@ class StyleSelectionScreen extends ConsumerWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => context.go('/dashboard'),
+                onPressed: () {
+                  StorageService.setOnboardingComplete();
+                  context.go('/dashboard');
+                },
                 child: const Text('IR PARA O PAINEL'),
               ),
             ),

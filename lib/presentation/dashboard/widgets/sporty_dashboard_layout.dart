@@ -4,8 +4,9 @@ import '../../../domain/models/vehicle_data.dart';
 
 class SportyDashboardLayout extends StatelessWidget {
   final VehicleData data;
+  final bool isManual;
 
-  const SportyDashboardLayout({super.key, required this.data});
+  const SportyDashboardLayout({super.key, required this.data, required this.isManual});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class SportyDashboardLayout extends StatelessWidget {
               hScale: hScale,
               wScale: wScale,
               maxWidth: constraints.maxWidth,
+              isManual: isManual,
             ),
           ],
         );
@@ -144,12 +146,14 @@ class _SportyContent extends StatelessWidget {
   final double hScale;
   final double wScale;
   final double maxWidth;
+  final bool isManual;
 
   const _SportyContent({
     required this.data,
     required this.hScale,
     required this.wScale,
     required this.maxWidth,
+    required this.isManual,
   });
 
   @override
@@ -244,6 +248,15 @@ class _SportyContent extends StatelessWidget {
           ),
         ),
 
+        // Marcha estimada (centro inferior) — apenas câmbio manual
+        if (isManual)
+          Positioned(
+            bottom: 40 * hScale,
+            left: 0,
+            right: 0,
+            child: Center(child: _GearBadge(gear: data.estimatedGear)),
+          ),
+
         // Boost (direita inferior)
         Positioned(
           bottom: 40 * hScale,
@@ -312,6 +325,37 @@ class _SportyContent extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _GearBadge extends StatelessWidget {
+  final int? gear;
+  const _GearBadge({required this.gear});
+
+  @override
+  Widget build(BuildContext context) {
+    final label = gear?.toString() ?? 'N';
+    return Container(
+      width: 52,
+      height: 52,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: AppTheme.pulseRed, width: 2),
+        color: AppTheme.pulseRed.withValues(alpha: 0.12),
+      ),
+      child: Center(
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Outfit',
+            color: Colors.white,
+            height: 1,
+          ),
+        ),
+      ),
     );
   }
 }

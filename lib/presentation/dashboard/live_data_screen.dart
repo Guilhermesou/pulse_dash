@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/theme/app_theme.dart';
 import '../../data/providers.dart';
+import '../../domain/models/app_state.dart';
 import '../../domain/models/vehicle_data.dart';
 
 // Metadados estáticos das métricas — definidos uma vez, nunca recriados.
@@ -26,7 +28,7 @@ double _getValue(VehicleData data, int index) => switch (index) {
       4 => data.engineLoad,
       5 => data.batteryVoltage,
       6 => data.fuelConsumption,
-      _ => 12.5,
+      _ => data.throttlePosition,
     };
 
 class LiveDataScreen extends ConsumerWidget {
@@ -71,7 +73,26 @@ class LiveDataScreen extends ConsumerWidget {
         ),
         loading: () =>
             const Center(child: CircularProgressIndicator(color: AppTheme.pulseRed)),
-        error: (err, _) => Center(child: Text('Erro: $err')),
+        error: (_, _) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.bluetooth_disabled, size: 48, color: AppTheme.pulseRed),
+              const SizedBox(height: 16),
+              const Text('OBD2 Desconectado', style: TextStyle(color: AppTheme.textMuted)),
+              const SizedBox(height: 24),
+              ElevatedButton.icon(
+                onPressed: () {
+                  ref.read(obdConnectionStateProvider.notifier)
+                      .updateState(ObdConnectionState.disconnected);
+                  context.go('/search');
+                },
+                icon: const Icon(Icons.bluetooth_searching),
+                label: const Text('RECONECTAR'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

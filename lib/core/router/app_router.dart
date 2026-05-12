@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 
+import '../storage/storage_service.dart';
 import '../../presentation/onboarding/onboarding_screen.dart';
 import '../../presentation/connect_obd/connect_obd_screen.dart';
 import '../../presentation/connect_obd/search_device_screen.dart';
@@ -15,6 +16,12 @@ import '../../presentation/map/map_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
+  redirect: (context, state) {
+    if (state.matchedLocation == '/' && StorageService.isOnboardingComplete()) {
+      return '/dashboard';
+    }
+    return null;
+  },
   routes: [
     GoRoute(
       path: '/',
@@ -30,7 +37,9 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/connecting',
-      builder: (context, state) => const ConnectingScreen(),
+      builder: (context, state) => ConnectingScreen(
+        deviceAddress: state.uri.queryParameters['address'] ?? '',
+      ),
     ),
     GoRoute(
       path: '/compatibility',

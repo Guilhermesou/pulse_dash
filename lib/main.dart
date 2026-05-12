@@ -10,23 +10,18 @@ import 'core/storage/storage_service.dart';
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  
+
   await Hive.initFlutter();
   await StorageService.init();
-  
-  // Modo imersivo: esconde status bar e nav bar do sistema.
-  // Devolve a tela inteira para o painel e reduz overhead de compositing.
+
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-  // Force landscape mode for better dashboard experience
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeRight,
     DeviceOrientation.landscapeLeft,
   ]);
 
   runApp(const ProviderScope(child: PulseDashApp()));
-  
-  // Remove splash screen after initialization
   FlutterNativeSplash.remove();
 }
 

@@ -4,8 +4,9 @@ import '../../../domain/models/vehicle_data.dart';
 
 class MinimalistDashboardLayout extends StatelessWidget {
   final VehicleData data;
+  final bool isManual;
 
-  const MinimalistDashboardLayout({super.key, required this.data});
+  const MinimalistDashboardLayout({super.key, required this.data, required this.isManual});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class MinimalistDashboardLayout extends StatelessWidget {
             // Painel esquerdo: velocidade + barra RPM
             SizedBox(
               width: constraints.maxWidth * 0.34,
-              child: _SpeedPanel(data: data),
+              child: _SpeedPanel(data: data, isManual: isManual),
             ),
 
             // Divisor sutil
@@ -42,7 +43,8 @@ class MinimalistDashboardLayout extends StatelessWidget {
 
 class _SpeedPanel extends StatelessWidget {
   final VehicleData data;
-  const _SpeedPanel({required this.data});
+  final bool isManual;
+  const _SpeedPanel({required this.data, required this.isManual});
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +119,32 @@ class _SpeedPanel extends StatelessWidget {
               ),
             ],
           ),
+          if (isManual) ...[
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Text(
+                  'MARCHA',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.25),
+                    fontSize: 9,
+                    letterSpacing: 2,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  data.estimatedGear?.toString() ?? 'N',
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w300,
+                    fontFamily: 'Outfit',
+                    color: Colors.white,
+                    height: 1,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ],
       ),
     );

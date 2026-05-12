@@ -31,6 +31,14 @@ class StorageService {
     return ObdConnectionState.values[index as int];
   }
 
+  // ─── Onboarding ───────────────────────────────────────────────────────────
+
+  static bool isOnboardingComplete() =>
+      Hive.box(_box).get('onboarding_complete', defaultValue: false) as bool;
+
+  static void setOnboardingComplete() =>
+      Hive.box(_box).put('onboarding_complete', true);
+
   // ─── App settings ─────────────────────────────────────────────────────────
 
   static AppSettings getAppSettings() {
@@ -55,6 +63,7 @@ class StorageService {
       devMode:         b.get('dev_mode',          defaultValue: d.devMode)         as bool,
       keepScreenOn:    b.get('keep_screen_on',    defaultValue: d.keepScreenOn)    as bool,
       autoConnect:     b.get('auto_connect',      defaultValue: d.autoConnect)     as bool,
+      isManual:        b.get('is_manual',          defaultValue: d.isManual)        as bool,
     );
   }
 
@@ -78,5 +87,6 @@ class StorageService {
     b.put('dev_mode',        s.devMode);
     b.put('keep_screen_on',  s.keepScreenOn);
     b.put('auto_connect',    s.autoConnect);
+    b.put('is_manual',       s.isManual);
   }
 }

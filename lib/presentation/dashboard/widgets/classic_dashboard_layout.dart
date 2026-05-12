@@ -5,8 +5,9 @@ import 'classic_gauge.dart';
 
 class ClassicDashboardLayout extends StatelessWidget {
   final VehicleData data;
+  final bool isManual;
 
-  const ClassicDashboardLayout({super.key, required this.data});
+  const ClassicDashboardLayout({super.key, required this.data, required this.isManual});
 
   @override
   Widget build(BuildContext context) {
@@ -195,9 +196,9 @@ class ClassicDashboardLayout extends StatelessWidget {
                           border: Border.all(color: AppTheme.pulseRed, width: 2),
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: const Text(
-                          'D',
-                          style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                        child: Text(
+                          isManual ? (data.estimatedGear?.toString() ?? 'N') : '-',
+                          style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                       ),
                       const SizedBox(width: 40),

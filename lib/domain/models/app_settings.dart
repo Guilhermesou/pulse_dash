@@ -17,6 +17,7 @@ class AppSettings {
   final bool devMode;
   final bool keepScreenOn;
   final bool autoConnect;
+  final bool isManual;
 
   const AppSettings({
     required this.vehicleName,
@@ -37,6 +38,7 @@ class AppSettings {
     required this.devMode,
     required this.keepScreenOn,
     required this.autoConnect,
+    this.isManual = false,
   });
 
   static const defaults = AppSettings(
@@ -58,6 +60,7 @@ class AppSettings {
     devMode: false,
     keepScreenOn: true,
     autoConnect: true,
+    isManual: false,
   );
 
   AppSettings copyWith({
@@ -79,6 +82,7 @@ class AppSettings {
     bool? devMode,
     bool? keepScreenOn,
     bool? autoConnect,
+    bool? isManual,
   }) {
     return AppSettings(
       vehicleName: vehicleName ?? this.vehicleName,
@@ -99,6 +103,7 @@ class AppSettings {
       devMode: devMode ?? this.devMode,
       keepScreenOn: keepScreenOn ?? this.keepScreenOn,
       autoConnect: autoConnect ?? this.autoConnect,
+      isManual: isManual ?? this.isManual,
     );
   }
 }

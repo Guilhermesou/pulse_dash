@@ -125,6 +125,14 @@ class SettingsScreen extends ConsumerWidget {
                       onChanged: (v) => save(settings.copyWith(fuelType: v)),
                     ),
                     const Divider(color: Colors.white10, height: 1),
+                    const Divider(color: Colors.white10, height: 1),
+                    ToggleTile(
+                      icon: Icons.settings_input_component,
+                      label: 'Câmbio manual',
+                      value: settings.isManual,
+                      onChanged: (v) => save(settings.copyWith(isManual: v)),
+                    ),
+                    const Divider(color: Colors.white10, height: 1),
                     SettingsTile(
                       icon: Icons.monitor_weight,
                       label: 'Peso (kg)',
