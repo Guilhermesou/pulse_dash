@@ -17,23 +17,30 @@ class DashboardScreen extends ConsumerWidget {
     final selectedStyle = ref.watch(dashboardStyleProvider);
     final isManual = ref.watch(appSettingsProvider.select((s) => s.isManual));
 
+    final connectionState = ref.watch(obdConnectionStateProvider);
+
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: vehicleDataAsync.when(
-        data: (data) => SafeArea(
-          child: _buildSelectedLayout(selectedStyle, data, isManual),
-        ),
-        loading: () => const Center(
-          child: CircularProgressIndicator(color: AppTheme.pulseRed),
-        ),
-        error: (_, _) => _DisconnectedOverlay(
-          onReconnect: () {
-            ref.read(obdConnectionStateProvider.notifier)
-                .updateState(ObdConnectionState.disconnected);
-            context.go('/search');
-          },
-        ),
-      ),
+      body: connectionState == ObdConnectionState.disconnected
+          ? _DisconnectedOverlay(
+              onReconnect: () => context.go('/search'),
+            )
+          : vehicleDataAsync.when(
+              data: (data) => SafeArea(
+                child: _buildSelectedLayout(selectedStyle, data, isManual),
+              ),
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (_, _) => _DisconnectedOverlay(
+                onReconnect: () {
+                  ref
+                      .read(obdConnectionStateProvider.notifier)
+                      .updateState(ObdConnectionState.disconnected);
+                  context.go('/search');
+                },
+              ),
+            ),
     );
   }
 

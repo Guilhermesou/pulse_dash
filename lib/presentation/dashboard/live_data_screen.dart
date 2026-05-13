@@ -38,9 +38,31 @@ class LiveDataScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final vehicleDataAsync = ref.watch(vehicleDataProvider);
 
+    final connectionState = ref.watch(obdConnectionStateProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Dados em Tempo Real')),
-      body: vehicleDataAsync.when(
+      body: connectionState == ObdConnectionState.disconnected
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.bluetooth_disabled,
+                      size: 48,
+                      color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(height: 16),
+                  const Text('OBD2 Desconectado',
+                      style: TextStyle(color: AppTheme.textMuted)),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: () => context.go('/search'),
+                    icon: const Icon(Icons.bluetooth_searching),
+                    label: const Text('RECONECTAR'),
+                  ),
+                ],
+              ),
+            )
+          : vehicleDataAsync.when(
         data: (data) => LayoutBuilder(
           builder: (context, constraints) {
             final crossAxisCount = constraints.maxWidth > 900
@@ -71,19 +93,22 @@ class LiveDataScreen extends ConsumerWidget {
             );
           },
         ),
-        loading: () =>
-            const Center(child: CircularProgressIndicator(color: AppTheme.pulseRed)),
+        loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, _) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.bluetooth_disabled, size: 48, color: AppTheme.pulseRed),
+              Icon(Icons.bluetooth_disabled,
+                  size: 48,
+                  color: Theme.of(context).colorScheme.primary),
               const SizedBox(height: 16),
-              const Text('OBD2 Desconectado', style: TextStyle(color: AppTheme.textMuted)),
+              const Text('OBD2 Desconectado',
+                  style: TextStyle(color: AppTheme.textMuted)),
               const SizedBox(height: 24),
               ElevatedButton.icon(
                 onPressed: () {
-                  ref.read(obdConnectionStateProvider.notifier)
+                  ref
+                      .read(obdConnectionStateProvider.notifier)
                       .updateState(ObdConnectionState.disconnected);
                   context.go('/search');
                 },

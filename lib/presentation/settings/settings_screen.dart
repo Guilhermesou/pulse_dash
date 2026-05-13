@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../data/providers.dart';
@@ -70,8 +71,12 @@ class SettingsScreen extends ConsumerWidget {
                             child: OutlinedButton(
                               onPressed: () {},
                               style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: AppTheme.pulseRed),
-                                foregroundColor: AppTheme.pulseRed,
+                                side: BorderSide(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primary),
+                                foregroundColor:
+                                    Theme.of(context).colorScheme.primary,
                               ),
                               child: const Text('Reconectar'),
                             ),
@@ -145,6 +150,15 @@ class SettingsScreen extends ConsumerWidget {
                         keyboardType: TextInputType.number,
                       ),
                     ),
+                    const Divider(color: Colors.white10, height: 1),
+                    SettingsTile(
+                      icon: Icons.description_outlined,
+                      label: 'Ficha Técnica',
+                      subtitle: 'Motor, câmbio, pneus e tanque',
+                      trailing: const Icon(Icons.chevron_right,
+                          color: AppTheme.textMuted),
+                      onTap: () => context.push('/vehicle-profile'),
+                    ),
                   ],
                 ),
               ),
@@ -176,6 +190,65 @@ class SettingsScreen extends ConsumerWidget {
                       ],
                       onChanged: (v) =>
                           ref.read(dashboardStyleProvider.notifier).setStyle(v!),
+                    ),
+                    const Divider(color: Colors.white10, height: 1),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.color_lens,
+                              color: AppTheme.textMuted, size: 22),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              'Cor de Destaque',
+                              style: GoogleFonts.inter(
+                                  color: AppTheme.textLight, fontSize: 14),
+                            ),
+                          ),
+                          Row(
+                            children: List.generate(
+                              AppTheme.accentColors.length,
+                              (i) {
+                                final accent = AppTheme.accentColors[i];
+                                final isSelected =
+                                    settings.primaryColorIndex == i;
+                                return GestureDetector(
+                                  onTap: () => save(
+                                      settings.copyWith(primaryColorIndex: i)),
+                                  child: AnimatedContainer(
+                                    duration:
+                                        const Duration(milliseconds: 150),
+                                    margin: const EdgeInsets.only(left: 8),
+                                    width: isSelected ? 26 : 22,
+                                    height: isSelected ? 26 : 22,
+                                    decoration: BoxDecoration(
+                                      color: accent.color,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: isSelected
+                                            ? Colors.white
+                                            : Colors.white24,
+                                        width: isSelected ? 2.5 : 1,
+                                      ),
+                                      boxShadow: isSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: accent.color
+                                                    .withValues(alpha: 0.6),
+                                                blurRadius: 8,
+                                              )
+                                            ]
+                                          : null,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const Divider(color: Colors.white10, height: 1),
                     SelectTile<String>(
@@ -467,10 +540,14 @@ class SettingsScreen extends ConsumerWidget {
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                    color: AppTheme.pulseRed.withValues(alpha: 0.5)),
+                    color: Theme.of(dialogContext)
+                        .colorScheme
+                        .primary
+                        .withValues(alpha: 0.5)),
               ),
-              focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: AppTheme.pulseRed),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(dialogContext).colorScheme.primary),
               ),
             ),
           ),
@@ -485,8 +562,10 @@ class SettingsScreen extends ConsumerWidget {
                 onSave(controller.text.trim());
                 Navigator.pop(dialogContext);
               },
-              child: const Text('SALVAR',
-                  style: TextStyle(color: AppTheme.pulseRed)),
+              child: Text('SALVAR',
+                  style: TextStyle(
+                      color:
+                          Theme.of(dialogContext).colorScheme.primary)),
             ),
           ],
         ),
@@ -515,8 +594,9 @@ class SettingsScreen extends ConsumerWidget {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('RESTAURAR',
-                style: TextStyle(color: AppTheme.pulseRed)),
+            child: Text('RESTAURAR',
+                style: TextStyle(
+                    color: Theme.of(ctx).colorScheme.primary)),
           ),
         ],
       ),

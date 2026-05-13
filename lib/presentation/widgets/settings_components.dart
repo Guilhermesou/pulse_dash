@@ -24,7 +24,7 @@ class SettingsSection extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: AppTheme.pulseRed,
+              color: Theme.of(context).colorScheme.primary,
               letterSpacing: 1.5,
             ),
           ),
@@ -94,6 +94,7 @@ class SettingsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primary = Theme.of(context).colorScheme.primary;
     return Opacity(
       opacity: active ? 1.0 : 0.5,
       child: InkWell(
@@ -108,10 +109,13 @@ class SettingsTile extends StatelessWidget {
                   color: AppTheme.backgroundBlack,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: active ? AppTheme.pulseRed.withValues(alpha: 0.3) : Colors.transparent,
+                    color: active
+                        ? primary.withValues(alpha: 0.3)
+                        : Colors.transparent,
                   ),
                 ),
-                child: Icon(icon, color: active ? AppTheme.pulseRed : AppTheme.textMuted, size: 20),
+                child: Icon(icon,
+                    color: active ? primary : AppTheme.textMuted, size: 20),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -138,15 +142,16 @@ class SettingsTile extends StatelessWidget {
                 ),
               ),
               if (loading)
-                const SizedBox(
+                SizedBox(
                   width: 20,
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(AppTheme.pulseRed),
+                    valueColor: AlwaysStoppedAnimation<Color>(primary),
                   ),
                 )
-              else ?trailing,
+              else
+                ?trailing,
             ],
           ),
         ),
@@ -171,14 +176,15 @@ class ToggleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primary = Theme.of(context).colorScheme.primary;
     return SettingsTile(
       icon: icon,
       label: label,
       trailing: Switch(
         value: value,
         onChanged: onChanged,
-        activeThumbColor: AppTheme.pulseRed,
-        activeTrackColor: AppTheme.pulseRed.withValues(alpha: 0.3),
+        activeThumbColor: primary,
+        activeTrackColor: primary.withValues(alpha: 0.3),
         inactiveThumbColor: AppTheme.textMuted,
         inactiveTrackColor: Colors.black26,
       ),
@@ -213,8 +219,10 @@ class SelectTile<T> extends StatelessWidget {
           items: items,
           onChanged: onChanged,
           dropdownColor: AppTheme.cardGray,
-          icon: const Icon(Icons.keyboard_arrow_down, color: AppTheme.textMuted),
-          style: GoogleFonts.inter(color: AppTheme.textLight, fontSize: 14),
+          icon: const Icon(Icons.keyboard_arrow_down,
+              color: AppTheme.textMuted),
+          style:
+              GoogleFonts.inter(color: AppTheme.textLight, fontSize: 14),
         ),
       ),
     );

@@ -254,7 +254,7 @@ class _SportyContent extends StatelessWidget {
             bottom: 40 * hScale,
             left: 0,
             right: 0,
-            child: Center(child: _GearBadge(gear: data.estimatedGear)),
+            child: Center(child: GearBadge(gear: data.estimatedGear)),
           ),
 
         // Boost (direita inferior)
@@ -329,9 +329,9 @@ class _SportyContent extends StatelessWidget {
   }
 }
 
-class _GearBadge extends StatelessWidget {
+class GearBadge extends StatelessWidget {
   final int? gear;
-  const _GearBadge({required this.gear});
+  const GearBadge({super.key, required this.gear});
 
   @override
   Widget build(BuildContext context) {

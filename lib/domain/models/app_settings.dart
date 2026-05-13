@@ -18,6 +18,7 @@ class AppSettings {
   final bool keepScreenOn;
   final bool autoConnect;
   final bool isManual;
+  final int primaryColorIndex;
 
   const AppSettings({
     required this.vehicleName,
@@ -39,6 +40,7 @@ class AppSettings {
     required this.keepScreenOn,
     required this.autoConnect,
     this.isManual = false,
+    this.primaryColorIndex = 0,
   });
 
   static const defaults = AppSettings(
@@ -61,6 +63,7 @@ class AppSettings {
     keepScreenOn: true,
     autoConnect: true,
     isManual: false,
+    primaryColorIndex: 0,
   );
 
   AppSettings copyWith({
@@ -83,6 +86,7 @@ class AppSettings {
     bool? keepScreenOn,
     bool? autoConnect,
     bool? isManual,
+    int? primaryColorIndex,
   }) {
     return AppSettings(
       vehicleName: vehicleName ?? this.vehicleName,
@@ -104,6 +108,7 @@ class AppSettings {
       keepScreenOn: keepScreenOn ?? this.keepScreenOn,
       autoConnect: autoConnect ?? this.autoConnect,
       isManual: isManual ?? this.isManual,
+      primaryColorIndex: primaryColorIndex ?? this.primaryColorIndex,
     );
   }
 }

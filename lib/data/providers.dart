@@ -4,6 +4,7 @@ import '../domain/models/vehicle_data.dart';
 import '../domain/models/diagnostic_code.dart';
 import '../domain/models/app_state.dart';
 import '../domain/models/app_settings.dart';
+import '../domain/models/vehicle_profile.dart';
 import '../core/storage/storage_service.dart';
 import '../core/services/bluetooth_service.dart';
 import '../core/services/elm327_service.dart';
@@ -122,3 +123,19 @@ class AppSettingsNotifier extends Notifier<AppSettings> {
 
 final appSettingsProvider =
     NotifierProvider<AppSettingsNotifier, AppSettings>(AppSettingsNotifier.new);
+
+// ─── Ficha técnica do veículo ───────────────────────────────────────────────
+
+class VehicleProfileNotifier extends Notifier<VehicleProfile> {
+  @override
+  VehicleProfile build() => StorageService.getVehicleProfile();
+
+  void update(VehicleProfile profile) {
+    state = profile;
+    StorageService.saveVehicleProfile(profile);
+  }
+}
+
+final vehicleProfileProvider =
+    NotifierProvider<VehicleProfileNotifier, VehicleProfile>(
+        VehicleProfileNotifier.new);

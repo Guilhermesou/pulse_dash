@@ -11,6 +11,8 @@ import '../../presentation/diagnostics/diagnostics_screen.dart';
 import '../../presentation/dashboard/live_data_screen.dart';
 import '../../presentation/style_selection/style_selection_screen.dart';
 import '../../presentation/settings/settings_screen.dart';
+import '../../presentation/vehicle_profile/vehicle_profile_screen.dart';
+import '../../presentation/vehicle_search/vehicle_search_screen.dart';
 import '../../presentation/widgets/main_layout.dart';
 import '../../presentation/map/map_screen.dart';
 
@@ -73,6 +75,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: '/vehicle-profile',
+      builder: (context, state) => const VehicleProfileScreen(),
+    ),
+    GoRoute(
+      path: '/vehicle-search',
+      builder: (context, state) => const VehicleSearchScreen(),
     ),
   ],
 );
