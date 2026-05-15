@@ -86,6 +86,15 @@ class ObdConnectionStateNotifier extends Notifier<ObdConnectionState> {
   void updateState(ObdConnectionState newState) {
     state = newState;
     StorageService.saveConnectionState(newState);
+    
+    // Se desconectar manualmente, limpa o ID salvo
+    if (newState == ObdConnectionState.disconnected) {
+      StorageService.saveLastDeviceId(null);
+    }
+  }
+
+  void saveDeviceId(String deviceId) {
+    StorageService.saveLastDeviceId(deviceId);
   }
 }
 

@@ -9,6 +9,7 @@ import 'core/theme/app_theme.dart';
 import 'core/router/app_router.dart';
 import 'core/storage/storage_service.dart';
 import 'data/providers.dart';
+import 'presentation/widgets/auto_connect_manager.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +48,7 @@ class PulseDashApp extends ConsumerWidget {
       theme: AppTheme.buildTheme(primary),
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
+      builder: (context, child) => AutoConnectManager(child: child!),
     );
   }
 }

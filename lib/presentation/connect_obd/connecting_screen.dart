@@ -56,8 +56,9 @@ class _ConnectingScreenState extends ConsumerState<ConnectingScreen> {
       await Future.delayed(const Duration(milliseconds: 500));
 
       // Conexão bem-sucedida
-      ref.read(obdConnectionStateProvider.notifier)
-          .updateState(ObdConnectionState.connected);
+      final notifier = ref.read(obdConnectionStateProvider.notifier);
+      notifier.saveDeviceId(widget.deviceAddress);
+      notifier.updateState(ObdConnectionState.connected);
 
       if (!mounted) return;
       context.go('/compatibility');

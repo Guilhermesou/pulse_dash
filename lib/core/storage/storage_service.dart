@@ -32,6 +32,12 @@ class StorageService {
     return ObdConnectionState.values[index as int];
   }
 
+  static void saveLastDeviceId(String? deviceId) =>
+      Hive.box(_box).put('last_device_id', deviceId);
+
+  static String? getLastDeviceId() =>
+      Hive.box(_box).get('last_device_id') as String?;
+
   // ─── Onboarding ───────────────────────────────────────────────────────────
 
   static bool isOnboardingComplete() =>
