@@ -24,7 +24,10 @@ class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(
           'CONFIGURAÇÕES',
-          style: GoogleFonts.outfit(fontWeight: FontWeight.bold, letterSpacing: 2),
+          style: GoogleFonts.outfit(
+            fontWeight: FontWeight.bold,
+            letterSpacing: 2,
+          ),
         ),
       ),
       body: ListView(
@@ -72,11 +75,11 @@ class SettingsScreen extends ConsumerWidget {
                               onPressed: () {},
                               style: OutlinedButton.styleFrom(
                                 side: BorderSide(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primary),
-                                foregroundColor:
-                                    Theme.of(context).colorScheme.primary,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                foregroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
                               ),
                               child: const Text('Reconectar'),
                             ),
@@ -86,7 +89,9 @@ class SettingsScreen extends ConsumerWidget {
                             child: ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
                               ),
                               child: const Text('Trocar'),
                             ),
@@ -125,7 +130,9 @@ class SettingsScreen extends ConsumerWidget {
                       label: 'Combustível',
                       value: settings.fuelType,
                       items: ['Gasolina', 'Etanol', 'Diesel', 'Flex']
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                          .map(
+                            (e) => DropdownMenuItem(value: e, child: Text(e)),
+                          )
                           .toList(),
                       onChanged: (v) => save(settings.copyWith(fuelType: v)),
                     ),
@@ -155,8 +162,10 @@ class SettingsScreen extends ConsumerWidget {
                       icon: Icons.description_outlined,
                       label: 'Ficha Técnica',
                       subtitle: 'Motor, câmbio, pneus e tanque',
-                      trailing: const Icon(Icons.chevron_right,
-                          color: AppTheme.textMuted),
+                      trailing: const Icon(
+                        Icons.chevron_right,
+                        color: AppTheme.textMuted,
+                      ),
                       onTap: () => context.push('/vehicle-profile'),
                     ),
                   ],
@@ -179,32 +188,43 @@ class SettingsScreen extends ConsumerWidget {
                       value: currentStyle,
                       items: const [
                         DropdownMenuItem(
-                            value: DashboardStyle.sporty,
-                            child: Text('Esportivo')),
+                          value: DashboardStyle.sporty,
+                          child: Text('Esportivo'),
+                        ),
                         DropdownMenuItem(
-                            value: DashboardStyle.minimalist,
-                            child: Text('Minimalista')),
+                          value: DashboardStyle.minimalist,
+                          child: Text('Minimalista'),
+                        ),
                         DropdownMenuItem(
-                            value: DashboardStyle.classic,
-                            child: Text('Clássico')),
+                          value: DashboardStyle.classic,
+                          child: Text('Clássico'),
+                        ),
                       ],
-                      onChanged: (v) =>
-                          ref.read(dashboardStyleProvider.notifier).setStyle(v!),
+                      onChanged: (v) => ref
+                          .read(dashboardStyleProvider.notifier)
+                          .setStyle(v!),
                     ),
                     const Divider(color: Colors.white10, height: 1),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
                       child: Row(
                         children: [
-                          const Icon(Icons.color_lens,
-                              color: AppTheme.textMuted, size: 22),
+                          const Icon(
+                            Icons.color_lens,
+                            color: AppTheme.textMuted,
+                            size: 22,
+                          ),
                           const SizedBox(width: 16),
                           Expanded(
                             child: Text(
                               'Cor de Destaque',
                               style: GoogleFonts.inter(
-                                  color: AppTheme.textLight, fontSize: 14),
+                                color: AppTheme.textLight,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                           Row(
@@ -216,10 +236,10 @@ class SettingsScreen extends ConsumerWidget {
                                     settings.primaryColorIndex == i;
                                 return GestureDetector(
                                   onTap: () => save(
-                                      settings.copyWith(primaryColorIndex: i)),
+                                    settings.copyWith(primaryColorIndex: i),
+                                  ),
                                   child: AnimatedContainer(
-                                    duration:
-                                        const Duration(milliseconds: 150),
+                                    duration: const Duration(milliseconds: 150),
                                     margin: const EdgeInsets.only(left: 8),
                                     width: isSelected ? 26 : 22,
                                     height: isSelected ? 26 : 22,
@@ -235,10 +255,11 @@ class SettingsScreen extends ConsumerWidget {
                                       boxShadow: isSelected
                                           ? [
                                               BoxShadow(
-                                                color: accent.color
-                                                    .withValues(alpha: 0.6),
+                                                color: accent.color.withValues(
+                                                  alpha: 0.6,
+                                                ),
                                                 blurRadius: 8,
-                                              )
+                                              ),
                                             ]
                                           : null,
                                     ),
@@ -256,7 +277,9 @@ class SettingsScreen extends ConsumerWidget {
                       label: 'Unidade de Velocidade',
                       value: settings.speedUnit,
                       items: ['km/h', 'mph']
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                          .map(
+                            (e) => DropdownMenuItem(value: e, child: Text(e)),
+                          )
                           .toList(),
                       onChanged: (v) => save(settings.copyWith(speedUnit: v)),
                     ),
@@ -266,7 +289,9 @@ class SettingsScreen extends ConsumerWidget {
                       label: 'Unidade de Temp.',
                       value: settings.tempUnit,
                       items: ['°C', '°F']
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                          .map(
+                            (e) => DropdownMenuItem(value: e, child: Text(e)),
+                          )
                           .toList(),
                       onChanged: (v) => save(settings.copyWith(tempUnit: v)),
                     ),
@@ -400,7 +425,8 @@ class SettingsScreen extends ConsumerWidget {
                         settings.maxBoost,
                         (v) => save(settings.copyWith(maxBoost: v)),
                         keyboardType: TextInputType.numberWithOptions(
-                            decimal: true),
+                          decimal: true,
+                        ),
                       ),
                     ),
                     const Divider(color: Colors.white10, height: 1),
@@ -506,9 +532,8 @@ class SettingsScreen extends ConsumerWidget {
           const SizedBox(height: 40),
           Center(
             child: Text(
-              'GTI Dash v1.0.0',
-              style: GoogleFonts.inter(
-                  color: AppTheme.textMuted, fontSize: 12),
+              'Pulse Dash v1.0.0',
+              style: GoogleFonts.inter(color: AppTheme.textMuted, fontSize: 12),
             ),
           ),
           const SizedBox(height: 40),
@@ -530,8 +555,10 @@ class SettingsScreen extends ConsumerWidget {
         context: context,
         builder: (dialogContext) => AlertDialog(
           backgroundColor: AppTheme.cardGray,
-          title: Text(title,
-              style: GoogleFonts.outfit(color: AppTheme.textLight)),
+          title: Text(
+            title,
+            style: GoogleFonts.outfit(color: AppTheme.textLight),
+          ),
           content: TextField(
             controller: controller,
             keyboardType: keyboardType,
@@ -540,32 +567,37 @@ class SettingsScreen extends ConsumerWidget {
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                    color: Theme.of(dialogContext)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.5)),
+                  color: Theme.of(
+                    dialogContext,
+                  ).colorScheme.primary.withValues(alpha: 0.5),
+                ),
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                    color: Theme.of(dialogContext).colorScheme.primary),
+                  color: Theme.of(dialogContext).colorScheme.primary,
+                ),
               ),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('CANCELAR',
-                  style: TextStyle(color: AppTheme.textMuted)),
+              child: const Text(
+                'CANCELAR',
+                style: TextStyle(color: AppTheme.textMuted),
+              ),
             ),
             TextButton(
               onPressed: () {
                 onSave(controller.text.trim());
                 Navigator.pop(dialogContext);
               },
-              child: Text('SALVAR',
-                  style: TextStyle(
-                      color:
-                          Theme.of(dialogContext).colorScheme.primary)),
+              child: Text(
+                'SALVAR',
+                style: TextStyle(
+                  color: Theme.of(dialogContext).colorScheme.primary,
+                ),
+              ),
             ),
           ],
         ),
@@ -580,8 +612,10 @@ class SettingsScreen extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppTheme.cardGray,
-        title: Text('Restaurar padrões',
-            style: GoogleFonts.outfit(color: AppTheme.textLight)),
+        title: Text(
+          'Restaurar padrões',
+          style: GoogleFonts.outfit(color: AppTheme.textLight),
+        ),
         content: const Text(
           'Todas as configurações voltarão aos valores originais. Deseja continuar?',
           style: TextStyle(color: AppTheme.textMuted),
@@ -589,14 +623,17 @@ class SettingsScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('CANCELAR',
-                style: TextStyle(color: AppTheme.textMuted)),
+            child: const Text(
+              'CANCELAR',
+              style: TextStyle(color: AppTheme.textMuted),
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text('RESTAURAR',
-                style: TextStyle(
-                    color: Theme.of(ctx).colorScheme.primary)),
+            child: Text(
+              'RESTAURAR',
+              style: TextStyle(color: Theme.of(ctx).colorScheme.primary),
+            ),
           ),
         ],
       ),

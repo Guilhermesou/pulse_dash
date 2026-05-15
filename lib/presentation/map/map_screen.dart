@@ -46,19 +46,20 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     setState(() => _currentPosition = initial);
     _mapController.move(initial, 16);
 
-    _positionSub = Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.high,
-        distanceFilter: 5,
-      ),
-    ).listen((pos) {
-      if (!mounted) return;
-      final newPos = LatLng(pos.latitude, pos.longitude);
-      setState(() => _currentPosition = newPos);
-      if (_followUser) {
-        _mapController.move(newPos, _mapController.camera.zoom);
-      }
-    });
+    _positionSub =
+        Geolocator.getPositionStream(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.high,
+            distanceFilter: 5,
+          ),
+        ).listen((pos) {
+          if (!mounted) return;
+          final newPos = LatLng(pos.latitude, pos.longitude);
+          setState(() => _currentPosition = newPos);
+          if (_followUser) {
+            _mapController.move(newPos, _mapController.camera.zoom);
+          }
+        });
   }
 
   @override
@@ -76,11 +77,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       backgroundColor: AppTheme.backgroundBlack,
       body: Stack(
         children: [
-          // Mapa (ocupa a tela toda — abaixo do SafeArea nos overlays)
           FlutterMap(
             mapController: _mapController,
             options: MapOptions(
-              initialCenter: _currentPosition ?? const LatLng(-23.5505, -46.6333),
+              initialCenter:
+                  _currentPosition ?? const LatLng(-23.5505, -46.6333),
               initialZoom: 15,
               onPositionChanged: (_, hasGesture) {
                 if (hasGesture && _followUser) {
@@ -145,8 +146,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             }
                           },
                           borderColor: AppTheme.pulseRed.withValues(alpha: 0.6),
-                          child: const Icon(Icons.my_location,
-                              color: AppTheme.pulseRed, size: 18),
+                          child: const Icon(
+                            Icons.my_location,
+                            color: AppTheme.pulseRed,
+                            size: 18,
+                          ),
                         ),
                     ],
                   ),
@@ -163,7 +167,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           _mapController.camera.center,
                           _mapController.camera.zoom + 1,
                         ),
-                        child: const Icon(Icons.add, color: Colors.white, size: 20),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       _GlassButton(
@@ -171,7 +179,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           _mapController.camera.center,
                           _mapController.camera.zoom - 1,
                         ),
-                        child: const Icon(Icons.remove, color: Colors.white, size: 20),
+                        child: const Icon(
+                          Icons.remove,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ],
                   ),
@@ -187,26 +199,33 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         color: AppTheme.cardGray,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.1)),
+                          color: Colors.white.withValues(alpha: 0.1),
+                        ),
                       ),
                       child: const Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.location_off,
-                              color: AppTheme.textMuted, size: 40),
+                          Icon(
+                            Icons.location_off,
+                            color: AppTheme.textMuted,
+                            size: 40,
+                          ),
                           SizedBox(height: 12),
                           Text(
                             'Localização não autorizada',
                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           SizedBox(height: 6),
                           Text(
                             'Permita o acesso à localização nas configurações do dispositivo.',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: AppTheme.textMuted, fontSize: 13),
+                              color: AppTheme.textMuted,
+                              fontSize: 13,
+                            ),
                           ),
                         ],
                       ),
